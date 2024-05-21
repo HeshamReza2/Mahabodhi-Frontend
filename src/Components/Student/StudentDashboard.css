@@ -1,0 +1,16 @@
+.dashboard-container{
+    padding: 25px;
+}
+
+.dashboard-row{
+    background-color: rgb(92, 201, 134);
+    padding: 20px;
+    border-radius: 7px;
+    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard-col{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}

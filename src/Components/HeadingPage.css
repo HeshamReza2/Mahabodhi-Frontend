@@ -1,0 +1,18 @@
+.headingOfAll{
+    display: flex;
+    justify-content: start;
+    color: rgb(78, 115, 223);
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
+    height: 70px;
+    padding-top: 12px;
+}
+
+.headingOfAll a{
+    font-size: 30px;
+    padding-right: 10px;
+}
+
+.headingOfAll h6{
+    font-size: 32px;
+    padding-top: 0.5px;
+}

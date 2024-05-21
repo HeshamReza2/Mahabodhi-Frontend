@@ -1,0 +1,94 @@
+.sideMenu-col{
+    background-color: rgb(78, 115, 223);
+    height: 100vh;
+    text-align: center;
+}
+
+.logo-img{
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar-menu-body .sidebar-menu-nav{
+    padding-left: 0;
+}
+
+.sidebar-menu-body .sidebar-menu-nav .logo-img:hover{
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.logo-img img{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 60px;
+}
+
+.sidebar-menu-nav{
+    font-size: 15px;
+    padding: 0px 0px 5px 0px;
+    margin: 0;
+}
+
+.sidebar-menu-nav .sidebar-menu-nav-link{
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar-menu-nav .sidebar-menu-nav-link:hover{
+    color: rgb(78, 115, 223);
+    background-color: white;
+    padding: 7px;
+    border-radius: 7px;
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-menu-sub-toggle{
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    font-size: 15px;
+    color: white;
+}
+
+.sidebar-menu-sub-toggle:focus{
+    outline: 0;
+}
+
+.sidebar-menu-sub-toggle:hover{
+    color: rgb(78, 115, 223);
+    background-color: white;
+    padding: 5px 7px;
+    border-radius: 7px;
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-menu-sub-collapse .sidebar-menu-nav{
+    padding-left: 10px;
+    font-size: 12px;
+    padding-top: 5px;
+}
+
+.sidebar-menu-sub-collapse .sidebar-menu-nav:first-child{
+    padding-top: 10px;
+}
+
+.main-link{
+    margin-bottom: 10px;
+    border-bottom: 1px solid white;
+    padding-bottom: 10px;
+}
+
+.main-link:last-child .sidebar-menu-nav-link{
+    border-radius: 25px;
+    padding: 4px 10px;
+    margin-left: -4px;
+}
+
+@media screen and (max-width: 320px) {
+    .logo-img img{
+        width: 50px;
+    }
+}

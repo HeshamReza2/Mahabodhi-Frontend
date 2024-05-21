@@ -1,0 +1,135 @@
+.count-box-parent{
+    padding: 10px;
+}
+
+.count-box{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    outline: 2px solid white;
+    border-radius: 7px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.count-box-parent:nth-child(1) .count-box{
+    border-left: 6px solid rgb(78, 115, 223);
+}
+
+.count-box-parent:nth-child(2) .count-box{
+    border-left: 6px solid rgb(10, 255, 243);
+}
+
+.count-box-parent:nth-child(3) .count-box{
+    border-left: 6px solid green;
+}
+
+.count-box-parent:nth-child(4) .count-box{
+    border-left: 6px solid rgb(255, 217, 0);
+}
+
+.count-box-1{
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+.count-box-1 h6{
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.count-box-parent:nth-child(1) .count-box .count-box-1 h6{
+    color: rgb(78, 115, 223);
+}
+
+.count-box-parent:nth-child(2) .count-box .count-box-1 h6{
+    color: rgb(10, 255, 243);
+}
+
+.count-box-parent:nth-child(3) .count-box .count-box-1 h6{
+    color: rgb(2, 138, 2);
+}
+
+.count-box-parent:nth-child(4) .count-box .count-box-1 h6{
+    color: rgb(255, 217, 0);
+}
+
+.count-box-1 p{
+    font-size: 20px;
+}
+
+.count-box-icon{
+    font-size: 35px;
+    padding-top: 12px;
+    opacity: 0.3;
+}
+
+.applicant-count-head-row{
+    border: 3px solid rgb(78, 115, 223);
+    margin-top: 25px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.applicant-count-head{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.session-input select{
+    width: 90px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.applicant-count-head h6{
+    font-size: 20px;
+    color: rgb(78, 115, 223);
+}
+
+.download-print button{
+    padding: 7px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 7px;
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.3);
+}
+
+.download-print button:focus{
+    outline: 0;
+}
+
+.download-print button:first-child{
+    background-color: rgb(78, 115, 223);
+    color: white;
+}
+
+.download-print button:first-child:hover{
+    background-color: white;
+    color: rgb(78, 115, 223);
+    transform: scale(1.02);
+}
+
+.download-print button:last-child{
+    background-color: rgb(2, 138, 2);
+    color: white;
+    margin-left: 7px;
+}
+
+.download-print button:last-child:hover{
+    background-color: white;
+    color: rgb(2, 138, 2);
+    transform: scale(1.02);
+}
+
+.applicant-count-table{
+    margin-top: 15px;
+}
+
+.applicant-count-table table thead{
+    background-color: rgb(78, 115, 223);
+    color: white;
+}
+
+.applicant-count-table table tbody{
+    color: rgb(78, 115, 223);
+}
