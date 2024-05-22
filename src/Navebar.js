@@ -12,6 +12,7 @@ function Navebar() {
     const [ xsAmount, setXsAmount ] = useState(2)
     const [ navToggle, setNavToggle ] = useState(true)
     const [ navDisplay, setNavDisplay ] = useState({display: ''})
+    const [ loginDisplay, setLoginDisplay ] = useState({display: 'none'})
     const [ arrow, setArrow ] = useState('fa-chevron-left')
 
     useEffect(() => {
@@ -59,7 +60,7 @@ function Navebar() {
     }, [pathname])
 
     useEffect(() => {
-        if(pathname?.includes('/login')) setIncluding1(true)
+        if(pathname?.includes('/login') || pathname?.includes('/application-form') || pathname?.includes('/signup')) setIncluding1(true)
         else setIncluding1(false)
     }, [pathname])
 
@@ -79,20 +80,25 @@ function Navebar() {
 
     useEffect(() => {
         if(including1 == true){
-            setNavbarDisplay({display: 'none'})
+            setNavbarDisplay({display: 'none', marginBottom: '80px'})
             setXsAmount(0)
         }
 
         else if(including1 == false){
-            setNavbarDisplay({display: ''})
+            setNavbarDisplay({display: '', marginBottom: '80px'})
         }
     }, [including1])
+
+    useEffect(() => {
+        if(navbarDisplay == {display: ''}) setLoginDisplay({display: 'none'})
+        else if(navbarDisplay == {display: 'none'}) setLoginDisplay({display: ''})
+    })
     
   return (
     <>
-        <Container fluid>
+        <Container fluid style={navbarDisplay}>
             <Row>
-                <Col xs={xsAmount} className='sideMenu-col' style={navbarDisplay}>
+                <Col xs={xsAmount} className='sideMenu-col'>
                     <SidebarMenu>
                         <SidebarMenu.Body style={adminNav}>
                             <SidebarMenu.Nav>
@@ -253,17 +259,15 @@ function Navebar() {
                     </SidebarMenu>
                 </Col>
 
-                <Col xs={12-xsAmount}>
+                <Col xs={12 - xsAmount}>
                     <Outlet />
-
-                    
-                </Col>
-                
-                <Col sx='12' className='p-0'>
-                    <Footer/>
                 </Col>
             </Row>
         </Container>
+
+        <Outlet style={loginDisplay} />
+
+        <Footer/>
     </>
   )
 }

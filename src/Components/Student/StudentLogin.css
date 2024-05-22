@@ -1,0 +1,87 @@
+.login-container{
+    background-color: rgba(78, 114, 223, 0.6);
+    height: 100vh;
+}
+
+.login-col{
+    max-width: 450px;
+    background-color: white;
+    outline: 3px solid rgba(0, 64, 255, 0.4);
+    padding: 20px;
+    margin-top: 180px;
+    border-radius: 7px;
+    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.3);
+}
+
+.form-group{
+    color: rgba(78, 114, 223, 1);
+}
+
+.form-group label{
+    margin-top: 15px;
+    margin-bottom: 0;
+    font-family: "Bree Serif", serif;
+    font-size: 19px;
+    color: rgba(78, 114, 223, 1);
+}
+
+.input-text{
+    padding-left: 40px;
+    font-family: "Exo 2", sans-serif;
+}
+
+.input-text::placeholder{
+    color: rgba(78, 114, 223, 1);
+}
+
+.input-text[type='text'], .input-text[type='date']{
+    color: rgba(78, 114, 223, 1);
+}
+
+.input-text-icon{
+    margin-top: -42px;
+    margin-left: 15px;
+    float: left;
+}
+
+.captcha{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.buttons{
+    display: flex;
+    justify-content: center;
+}
+
+.buttons button{
+    background-color: rgba(78, 114, 223, 1);
+    border: 1px solid rgba(78, 114, 223, 1);
+    outline: 0;
+    border-radius: 17px;
+    font-family: "Radio Canada Big", sans-serif;
+}
+
+.buttons button:hover{
+    background-color: white;
+    color: rgba(78, 114, 223, 1);
+}
+
+.buttons button:focus{
+    outline: 0;
+}
+
+.button-2{
+    margin-top: 10px;
+}
+
+.button-2 button{
+    background-color: white;
+    color: rgba(78, 114, 223, 1);
+}
+
+.button-2 button:hover{
+    background-color: rgba(78, 114, 223, 1);
+    color: white;
+}

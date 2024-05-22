@@ -1,0 +1,7 @@
+header --> font-family: "Bree Serif", serif;
+para --> font-family: "Exo 2", sans-serif;
+
+buttons --> font-family: "Radio Canada Big", sans-serif;
+
+
+font-family: "Hind", sans-serif;
