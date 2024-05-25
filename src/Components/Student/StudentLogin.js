@@ -10,6 +10,7 @@ function StudentLogin() {
   const recaptchaRef = useRef()
 
   const [ data, setData ] = useState([])
+  console.log(data);
   const [ field, setField ] = useState('application_no')
   const [ valid, setValid ] = useState(false)
 
@@ -44,15 +45,19 @@ function StudentLogin() {
 
   useEffect(() => {
     if(data != [] || data !== '' || data !== null || data !== undefined){
-      if(new Date(data.dob).getFullYear() == new Date(studentData.date).getFullYear()){
-        if(new Date(data.dob).getMonth() == new Date(studentData.date).getMonth()){
-          if(new Date(data.dob).getDate() == new Date(studentData.date).getDate()) setValid(true)
-            else setValid(false)
+      if(studentData.date !=''){
+        if(new Date(data.dob).getFullYear() == new Date(studentData.date).getFullYear()){
+          if(new Date(data.dob).getMonth() == new Date(studentData.date).getMonth()){
+            if(new Date(data.dob).getDate() == new Date(studentData.date).getDate()) setValid(true)
+              else setValid(false)
+          }
+          else setValid(false)
         }
         else setValid(false)
       }
-      else setValid(false)
+      else if(studentData.date ='') setValid(false)
     }
+    else if(data == [] || data == '' || data == null || data == undefined) setValid(false)
   })
 
   const submit = e => {
@@ -62,7 +67,7 @@ function StudentLogin() {
     else{
       if(valid == true){
         if(data.admission_status == true) navigate('/dashboard')
-        else if(data.admission_status == false) navigate('/application-form')
+        else if(data.admission_status == false) navigate('/application-form/personal-details', { state: data})
       }
       else if(valid == false){
         if(field == 'registration_no') alert('Registration Number or Date of Birth not valid')

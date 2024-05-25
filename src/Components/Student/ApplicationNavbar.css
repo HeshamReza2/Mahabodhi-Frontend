@@ -1,0 +1,46 @@
+.step{
+    display: flex;
+}
+
+.step ul{
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    margin-bottom: 70px;
+}
+
+.step ul li{
+    list-style-type: none;
+    width: 15%;
+    text-align: center;
+    padding-top: 15px;
+    margin-top: 20px;
+    cursor: pointer;
+    color: white;
+}
+
+.step ul li a{
+    background-color: rgb(78, 115, 223);
+    padding: 20px 25px;
+    border-radius: 60px;
+}
+
+.step ul .active-step a{
+    background-color: rgb(0, 155, 46);
+}
+
+@media screen and (max-width: 425px){
+    .step ul{
+        justify-content: space-between;
+    }
+    .step ul li{
+        width: 8%;
+        display: flex;
+        padding-top: 8px;
+        margin-top: 10px;
+    }
+
+    .step ul li a{
+        padding: 8px 15px;
+    }
+}
