@@ -1,0 +1,22 @@
+form .second-head-h6{
+    font-family: "Bree Serif", serif;
+    font-size: 20px;
+    text-align: start;
+    margin-top: 25px;
+    color: rgb(0, 35, 139);
+}
+
+.label-box-2 label{
+    font-size: 15px;
+}
+
+.form-check-label{
+    color: rgba(78, 114, 223, 1);
+    font-family: "Exo 2", sans-serif;
+    font-weight: bold;
+}
+
+.form-check{
+    margin-top: 12px;
+    margin-bottom: 20px;
+}

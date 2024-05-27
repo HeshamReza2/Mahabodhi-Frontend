@@ -4,6 +4,9 @@ import { Col, Container, Row } from 'react-bootstrap'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
+import Cookies from 'universal-cookie'
+
+const cookies = new Cookies()
 
 function StudentLogin() {
   const navigate = useNavigate()
@@ -66,8 +69,14 @@ function StudentLogin() {
     if(!captchaValue) alert('Fill the captcha')
     else{
       if(valid == true){
-        if(data.admission_status == true) navigate('/dashboard')
-        else if(data.admission_status == false) navigate('/application-form/personal-details', { state: data})
+        if(data.admission_status == true){
+          cookies.set('id', data._id, { path: '/', maxAge: 3600*24 })
+          navigate('/dashboard')
+        }
+        else if(data.admission_status == false){
+          cookies.set('id', data._id, { path: '/', maxAge: 60*15 })
+          navigate('/application-form/personal-details', { state: data})
+        }
       }
       else if(valid == false){
         if(field == 'registration_no') alert('Registration Number or Date of Birth not valid')

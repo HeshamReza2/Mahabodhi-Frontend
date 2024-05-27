@@ -4,40 +4,79 @@ import { Col, Container, Row } from 'react-bootstrap'
 import ApplicationNavbar from '../ApplicationNavbar'
 import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router'
+import Cookies from 'universal-cookie'
+
+const cookies = new Cookies()
 
 function PersonalDetails() {
     const navigate = useNavigate()
     const location = useLocation()
+    
+    useEffect(() => {
+        if(!cookies.get('id')){
+            navigate('/login')
+            cookies.remove('id')
+        }
+    })
 
     const bloodGroup = [ 'A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']
     const religionList = [ 'Hindu', 'Muslim', 'Christian', 'Sikh', 'Jain', 'Buddhist', 'Zoroastrian']
     const categoryList = [ 'General', 'BC-I', 'BC-II', 'S.C.', 'S.T.']
     const subCategoryList = [ 'Girls', 'Visually Divyang (VH)', 'Hearing Divyang (HH)', 'Orthopaedically Divyang (OH)', 'Not Applicable']
 
-    const domicileStates = [
-        'Arunachal Pradesh', 'Andhra Pradesh', 'Assam', 'Bihar', 'Chattisgarh', 'Delhi', 'Goa', 'Gujrat', 'Haryana', 'Haryana', 'Haryana', 'Himachal Pradesh', 'Jammu & Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Orissa', 'Pondicherry', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Tripura', 'Uttranchal', 'Uttar Pradesh', 'West Bengal', 'Union Territories'
-    ]
+    const [ domicileStates, setDomicileStates ] = useState([])
+
+    useEffect(() => {
+        axios
+            .post('http://localhost:8060/find-states', { type: 'state'})
+            .then(res => setDomicileStates(res.data))
+            .catch(err => console.log(err))
+    }, [])
+
+    const [ unionTerritories, setUnionTerritories ] = useState([])
+
+    useEffect(() => {
+        axios
+            .post('http://localhost:8060/find-states', { type: 'ut'})
+            .then(res => setUnionTerritories(res.data))
+            .catch(err => console.log(err))
+    }, [])
 
     const genderList = [ 'Male', 'Female', 'Transgender']
-    const minorityList = [ 'Yes', 'No']
+    const minorityList = [ {text: 'Yes', value: true}, {text: 'No', value: false} ]
+
+    const monthList = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+    const yesNo = ( value) => {
+        if(value == false) return 'No'
+        else if(value == true) return 'Yes'
+    }
 
     const [ data, setData ] = useState(location.state)
-    console.log(data)
+    const [ data2, setData2 ] = useState([])
+    console.log(data2)
 
-    const updateDate = e => {
-        setData({
-            ...data,
+    const updateData = e => {
+        setData2({
+            ...data2,
             [e.target.name]: e.target.value
         })
     }
 
     const dob = new Date(data.dob)
+    const today = Date.now()
 
-    const submit = e => {
-        e.preventDefault()
+    const submit = () => {
         axios
-            .patch(`http://localhost:8060/update-student/${data._id}`, data)
-            .then(res => console.log(res))
+            .patch(`http://localhost:8060/update-student/${data._id}`, data2)
+            .then(res => {
+                if(res.status == 200){
+                    alert('Step 1 complete. Moving to step 2')
+                    navigate('/application-form/contact-details', { state: data })
+                }
+
+                else alert('Error! Please try again.')
+            })
             .catch(err => console.log(err))
     }
   return (
@@ -49,7 +88,7 @@ function PersonalDetails() {
                 <Col sm='12' className='form-personal-details'>
                     <h6>Personal Details</h6>
                     
-                    <form onSubmit={submit}>
+                    <form>
                         <Row className='form-group'>
                             <Col sm='6' className='label-box'>
                                 <label for="name">Candidate Name</label>
@@ -81,7 +120,7 @@ function PersonalDetails() {
                             </Col>
 
                             <Col sm='6' className='label-box'>
-                                <input type='text' className='form-control my-3 input-text' autoFocus required name='mother_name' placeholder='Enter Your Mother`s Name' defaultValue={data.mother_name || ''} onChange={updateDate} />
+                                <input type='text' className='form-control my-3 input-text' autoFocus required name='mother_name' placeholder='Enter Your Mother`s Name' defaultValue={data.mother_name || ''} onChange={updateData} />
                                 <i class="fa-solid fa-user input-text-icon"></i>
                             </Col>
                         </Row>
@@ -93,7 +132,7 @@ function PersonalDetails() {
                             </Col>
                             
                             <Col sm='6' className='label-box'>
-                                <input type='date' className='form-control my-3 input-text' autoFocus required name='dob' placeholder='Enter Your Date of Birth' defaultValue={data.dob || ''} onChange={updateDate} />
+                                <input type='text' className='form-control my-3 input-text' autoFocus name='dob' placeholder='Enter Your Date of Birth' value={`${dob.getDate()}-${monthList[dob.getMonth()]}-${dob.getFullYear()}` || ''} max={today} />
                                 <i class="fa-solid fa-calendar-days input-text-icon"></i>
                             </Col>
                         </Row>
@@ -115,7 +154,7 @@ function PersonalDetails() {
                             </Col>
 
                             <Col sm='6' className='label-box'>
-                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus name='blood_group' onChange={updateDate} >
+                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus name='blood_group' onChange={updateData} >
                                     <option value={data.blood_group || 'Select Blood Group'}>{data.blood_group || 'Select Blood Group'}</option>
                                     {
                                         bloodGroup.map((item, index) => {
@@ -137,7 +176,7 @@ function PersonalDetails() {
                             </Col>
 
                             <Col sm='6' className='label-box'>
-                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus required name='gender' onChange={updateDate} >
+                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus required name='gender' onChange={updateData} >
                                     <option value={data.gender || 'Select Your Gender'}>{data.gender || 'Select Your Gender'}</option>
                                     {
                                         genderList.map((item, index) => {
@@ -159,7 +198,7 @@ function PersonalDetails() {
                             </Col>
 
                             <Col sm='6' className='label-box'>
-                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus required name='religion' onChange={updateDate} >
+                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus required name='religion' onChange={updateData} >
                                     <option value={data.religion || 'Select Your Religion'}>{data.religion || 'Select Your Religion'}</option>
                                     {
                                         religionList.map((item, index) => {
@@ -182,7 +221,7 @@ function PersonalDetails() {
                             </Col>
 
                             <Col sm='6' className='label-box'>
-                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus required name='category' onChange={updateDate} >
+                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus required name='category' onChange={updateData} >
                                     <option value={data.category || 'Select Your Category'}>{data.category || 'Select Your Category'}</option>
                                     {
                                         categoryList.map((item, index) => {
@@ -204,7 +243,7 @@ function PersonalDetails() {
                             </Col>
 
                             <Col sm='6' className='label-box'>
-                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus required name='sub_category' onChange={updateDate} >
+                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus required name='sub_category' onChange={updateData} >
                                     <option value={data.sub_category || 'Select Your Sub Category'}>{data.sub_category || 'Select Your Sub Category'}</option>
                                     {
                                         subCategoryList.map((item, index) => {
@@ -225,13 +264,13 @@ function PersonalDetails() {
                             </Col>
 
                             <Col sm='6' className='label-box'>
-                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus name='minority' onChange={updateDate} >
-                                    <option value={data.minority || 'Do you belong to Minority Category?'}>{data.minority || 'Do you belong to Minority Category?'}</option>
+                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus name='minority' onChange={updateData} >
+                                    <option value={yesNo(data.minority) || 'Do you belong to Minority Category?'}>{yesNo(data.minority) || 'Do you belong to Minority Category?'}</option>
                                     {
                                         minorityList.map((item, index) => {
-                                            if(item !== data.minority){
+                                            if(item.value !== data.minority){
                                                 return(
-                                                    <option value={item} key={index}>{item}</option>
+                                                    <option value={item.value} key={index}>{item.text}</option>
                                                 )
                                             }
                                         })
@@ -247,13 +286,13 @@ function PersonalDetails() {
                             </Col>
 
                             <Col sm='6' className='label-box'>
-                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus required name='economically_weak' onChange={updateDate} >
-                                    <option value={data.economically_weak || 'Do you possess Economically Weaker Section (EWS) certificate?'}>{data.economically_weak || 'Do you possess Economically Weaker Section (EWS) certificate?'}</option>
+                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus required name='economically_weak' onChange={updateData} >
+                                    <option value={yesNo(data.economically_weak) || 'Do you possess Economically Weaker Section (EWS) certificate?'}>{yesNo(data.economically_weak) || 'Do you possess Economically Weaker Section (EWS) certificate?'}</option>
                                     {
                                         minorityList.map((item, index) => {
-                                            if(item !== data.economically_weak){
+                                            if(item.value !== data.economically_weak){
                                                 return(
-                                                    <option value={item} key={index}>{item}</option>
+                                                    <option value={item.value} key={index}>{item.text}</option>
                                                 )
                                             }
                                         })
@@ -269,13 +308,25 @@ function PersonalDetails() {
                             </Col>
                             
                             <Col sm='6' className='label-box'>
-                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus required name='domicile_state' onChange={updateDate} >
+                                <select class="form-select input-select admission-select" aria-label=".form-select-lg example" autoFocus required name='domicile_state' onChange={updateData} >
                                     <option value={data.domicile_state || 'Select Your Domicile State'}>{data.domicile_state || 'Select Your Domicile State'}</option>
                                     {
                                         domicileStates.map((item, index) => {
                                             if(item !== data.domicile_state){
                                                 return(
-                                                    <option value={item} key={index}>{item}</option>
+                                                    <option value={item.name} key={index}>{item.name}</option>
+                                                )
+                                            }
+                                        })
+                                    }
+
+                                    <option disabled>---Union Territories---</option>
+
+                                    {
+                                        unionTerritories.map((item, index) => {
+                                            if(item !== data.domicile_state){
+                                                return(
+                                                    <option value={item.name} key={index}>{item.name}</option>
                                                 )
                                             }
                                         })
@@ -291,7 +342,7 @@ function PersonalDetails() {
                             </Col>
 
                             <Col sm='6' className='label-box'>
-                                <input type='text' className='form-control my-3 input-text' autoFocus name='domicile_certificate_no' placeholder='Enter Your Domicile Certificate Number' defaultValue={data.domicile_certificate_no || ''} onChange={updateDate} />
+                                <input type='text' className='form-control my-3 input-text' autoFocus name='domicile_certificate_no' placeholder='Enter Your Domicile Certificate Number' defaultValue={data.domicile_certificate_no || ''} onChange={updateData} />
                                 <i class="fa-solid fa-hashtag input-text-icon"></i>
                             </Col>
                         </Row>
@@ -303,7 +354,7 @@ function PersonalDetails() {
                             </Col>
 
                             <Col sm='6' className='label-box'>
-                                <input type='number' className='form-control my-3 input-text' autoFocus required name='aadhar' placeholder='Enter Your Aadhar Number' defaultValue={data.aadhar || ''} onChange={updateDate} />
+                                <input type='number' className='form-control my-3 input-text' autoFocus required name='aadhar' placeholder='Enter Your Aadhar Number' defaultValue={data.aadhar || ''} onChange={updateData} />
                                 <i class="fa-solid fa-hashtag input-text-icon"></i>
                             </Col>
                         </Row>
@@ -326,7 +377,7 @@ function PersonalDetails() {
                             </Col>
 
                             <Col sm='6' className='label-box'>
-                                <input type='number' className='form-control my-3 input-text' autoFocus name='mobile2' placeholder='Enter Your Alternate Mobile Number' value={data.mobile2 || ''} />
+                                <input type='number' className='form-control my-3 input-text' autoFocus name='mobile2' placeholder='Enter Your Alternate Mobile Number' defaultValue={data.mobile2 || ''} onChange={updateData} />
                                 <i class="fa-solid fa-phone input-text-icon"></i>
                             </Col>
                         </Row>
@@ -344,7 +395,7 @@ function PersonalDetails() {
                         </Row>
 
                         <div className='buttons'>
-                            <button className='btn btn-primary'>Save & Next Step</button>
+                            <button className='btn btn-primary' onClick={e => {e.preventDefault(); submit()}}>Save & Next Step</button>
                         </div>
                     </form>
                 </Col>
